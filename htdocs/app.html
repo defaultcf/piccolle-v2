@@ -10,6 +10,8 @@
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
 <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 
 <dom-module id="x-app">
@@ -19,6 +21,11 @@
       background-color: #1E88E5;
       color: white;
       --app-toolbar-font-size: 24px;
+    }
+    paper-input#url {
+      --paper-input-container-color: white;
+      --paper-input-container-focus-color: white;
+      --paper-input-container-input-color: white;
     }
     app-drawer iron-selector {
       margin: 0 20px;
@@ -49,8 +56,14 @@
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
             <div main-title>Piccolle</div>
           </app-toolbar>
+          <app-toolbar sticky>
+            <paper-input id="url" label="URL">
+              <paper-icon-button suffix icon="clear"></paper-icon-button>
+            </paper-input>
+          </app-toolbar>
         </app-header>
         <p>収集するやで</p>
+        <sample-content size="30"></sample-content>
       </app-header-layout>
     </app-drawer-layout>
   </template>
