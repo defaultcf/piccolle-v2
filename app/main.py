@@ -27,7 +27,7 @@ def collecter(url):
         return
     
     count = 0
-    pic = {}
+    pic = []
 
     html = urlopen(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -35,6 +35,6 @@ def collecter(url):
         text = str(a.string)
         if text.endswith("jpg") or text.endswith("png"):
             count += 1
-            pic.update({count: text})
+            pics.append({"src": text})
 
     return pic
