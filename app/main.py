@@ -27,7 +27,7 @@ def collecter(url):
         return
     
     count = 0
-    pic = []
+    pics = []
 
     html = urlopen(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -37,4 +37,4 @@ def collecter(url):
             count += 1
             pics.append({"src": text})
 
-    return pic
+    return pics
