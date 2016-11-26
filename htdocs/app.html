@@ -1,0 +1,104 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/app-route/app-location.html">
+<link rel="import" href="bower_components/app-route/app-route.html">
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
+
+<dom-module id="x-app">
+  <template>
+    <style>
+    app-toolbar {
+      background-color: #1E88E5;
+      color: white;
+      --app-toolbar-font-size: 24px;
+    }
+    app-toolbar paper-input {
+      width: 100%;
+      --paper-input-container-color: white;
+      --paper-input-container-focus-color: white;
+      --paper-input-container-input-color: white;
+    }
+    app-toolbar paper-progress {
+      width: 100%;
+      --paper-progress-container-color: #1E88E5;
+      --paper-progress-active-color: white;
+      --paper-progress-indeterminate-cycle-duration: 5s;
+    }
+    app-drawer iron-selector {
+      margin: 0 20px;
+    }
+    app-drawer iron-selector a {
+      display: block;
+      padding: 0 16px;
+      line-height: 40px;
+      text-decoration: none;
+      color: var(--app-secondary-color);
+    }
+    app-drawer iron-selector a.iron-selected {
+      color: black;
+      font-weight: bold;
+    }
+    app-drawer iron-selector a.subroute {
+      padding-left: 32px;
+    }
+    </style>
+
+    <iron-ajax auto
+               url="/api"
+               params="[[apiParams]]"
+               loading="{{ajaxLoading}}"
+               last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <app-drawer-layout fullbleed>
+      <app-drawer>
+        <p>お気に入り</p>
+      </app-drawer>
+      <app-header-layout>
+        <app-header condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <div main-title>Piccolle</div>
+          </app-toolbar>
+          <app-toolbar sticky>
+            <paper-input label="URL" value="{{url}}" on-keydown="_collect">
+              <paper-icon-button suffix icon="arrow-forward" on-tap="_collect"></paper-icon-button>
+            </paper-input>
+            <template is="dom-if" if="[[ajaxLoading]]">
+              <paper-progress indeterminate bottom-item></paper-progress>
+            </template>
+          </app-toolbar>
+        </app-header>
+        <p>収集するやで</p>
+        <sample-content size="30"></sample-content>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'x-app',
+    properties: {
+      apiParams: {
+        type: String
+      }
+    },
+
+    _collect: function(e) {
+      if(e.keyCode && e.keyCode !== 13) return;
+      this.apiParams = { "url": this.url };
+    }
+  });
+  </script>
+</dom-module>
