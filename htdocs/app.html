@@ -13,7 +13,6 @@
 <link rel="import" href="bower_components/paper-input/paper-input.html">
 <link rel="import" href="bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
 
 <dom-module id="x-app">
   <template>
@@ -81,7 +80,9 @@
           </app-toolbar>
         </app-header>
         <p>収集するやで</p>
-        <sample-content size="30"></sample-content>
+        <template is="dom-repeat" items="{{ajaxResponse}}">
+          <img src="{{item.src}}">
+        </template>
       </app-header-layout>
     </app-drawer-layout>
   </template>
