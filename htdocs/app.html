@@ -10,9 +10,11 @@
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
 <link rel="import" href="bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
 
 <dom-module id="x-app">
   <template>
@@ -22,7 +24,7 @@
       color: white;
       --app-toolbar-font-size: 24px;
     }
-    app-toolbar paper-input {
+    app-toolbar paper-input-container {
       width: 100%;
       --paper-input-container-color: white;
       --paper-input-container-focus-color: white;
@@ -51,6 +53,9 @@
     app-drawer iron-selector a.subroute {
       padding-left: 32px;
     }
+    paper-card {
+      margin: 0px 20px 20px;
+    }
     </style>
 
     <iron-ajax auto
@@ -71,17 +76,19 @@
             <div main-title>Piccolle</div>
           </app-toolbar>
           <app-toolbar sticky>
-            <paper-input label="URL" value="{{url}}" on-keydown="_collect">
+            <paper-input-container>
+              <label>URL</label>
+              <input is="iron-input" type="url" bind-value="{{url::input}}" on-keydown="_collect">
               <paper-icon-button suffix icon="arrow-forward" on-tap="_collect"></paper-icon-button>
-            </paper-input>
+            </paper-input-container>
             <template is="dom-if" if="[[ajaxLoading]]">
               <paper-progress indeterminate bottom-item></paper-progress>
             </template>
           </app-toolbar>
         </app-header>
         <p>収集するやで</p>
-        <template is="dom-repeat" items="{{ajaxResponse}}">
-          <img src="{{item.src}}">
+        <template is="dom-repeat" items="[[ajaxResponse]]">
+          <paper-card image="[[item.src]]" alt="image"></paper-card>
         </template>
       </app-header-layout>
     </app-drawer-layout>
@@ -97,7 +104,7 @@
     },
 
     _collect: function(e) {
-      if(e.keyCode && e.keyCode !== 13) return;
+      if(e.keyCode && e.keyCode !== 13 || this.url == "") return;
       this.apiParams = { "url": this.url };
     }
   });
