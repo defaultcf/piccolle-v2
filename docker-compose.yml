@@ -22,4 +22,4 @@ services:
         working_dir: /mnt
         environment:
             - FLASK_APP=main.py
-        command: ash -c 'pip install Flask && python -m flask run --host=0.0.0.0'
+        command: ash -c 'pip install Flask beautifulsoup4 && python -m flask run --host=0.0.0.0'
