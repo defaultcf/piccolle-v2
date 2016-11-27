@@ -27,6 +27,7 @@
     "paper-input": "PolymerElements/paper-input#^1.1.22",
     "paper-progress": "PolymerElements/paper-progress#^1.0.11",
     "iron-selector": "PolymerElements/iron-selector#^1.5.2",
-    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3"
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "paper-card": "PolymerElements/paper-card#^1.1.4"
   }
 }

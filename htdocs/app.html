@@ -13,6 +13,7 @@
 <link rel="import" href="bower_components/paper-input/paper-input.html">
 <link rel="import" href="bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
 
 <dom-module id="x-app">
   <template>
@@ -51,6 +52,9 @@
     app-drawer iron-selector a.subroute {
       padding-left: 32px;
     }
+    paper-card {
+      margin: 0px 20px 20px;
+    }
     </style>
 
     <iron-ajax auto
@@ -80,8 +84,8 @@
           </app-toolbar>
         </app-header>
         <p>収集するやで</p>
-        <template is="dom-repeat" items="{{ajaxResponse}}">
-          <img src="{{item.src}}">
+        <template is="dom-repeat" items="[[ajaxResponse]]">
+          <paper-card image="[[item.src]]" alt="image"></paper-card>
         </template>
       </app-header-layout>
     </app-drawer-layout>
