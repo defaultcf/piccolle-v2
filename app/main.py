@@ -23,10 +23,9 @@ def collecter(url):
     @param url スクレイピングしたいURL
     @return スクレイピング結果のjson
     """
-    if(url == ""):
+    if(url is None or url == ""):
         return
     
-    count = 0
     pics = []
 
     html = urlopen(url)
@@ -34,7 +33,6 @@ def collecter(url):
     for a in soup.find_all("a"):
         text = str(a.string)
         if text.endswith("jpg") or text.endswith("png"):
-            count += 1
             pics.append({"src": text})
 
     return pics
