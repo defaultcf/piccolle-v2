@@ -11,6 +11,7 @@
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="bower_components/iron-input/iron-input.html">
 <link rel="import" href="bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="bower_components/paper-card/paper-card.html">
@@ -77,7 +78,7 @@
           <app-toolbar sticky>
             <paper-input-container>
               <label>URL</label>
-              <input is="iron-input" type="url" value="{{url}}" on-keydown="_collect">
+              <input is="iron-input" type="url" bind-value="{{url::input}}" on-keydown="_collect">
               <paper-icon-button suffix icon="arrow-forward" on-tap="_collect"></paper-icon-button>
             </paper-input-container>
             <template is="dom-if" if="[[ajaxLoading]]">
@@ -103,7 +104,7 @@
     },
 
     _collect: function(e) {
-      if(e.keyCode && e.keyCode !== 13) return;
+      if(e.keyCode && e.keyCode !== 13 || this.url == "") return;
       this.apiParams = { "url": this.url };
     }
   });
