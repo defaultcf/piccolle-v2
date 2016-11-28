@@ -24,8 +24,7 @@ def collector(url:str) -> list:
     @param url スクレイピングしたいURL
     @return スクレイピング結果のlist
     """
-    if not url:
-        return []
+    if not url: return []
 
     html = urlopen(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -43,10 +42,10 @@ def is2ch(url:str) -> bool:
     @return 2chならTrue、それ以外ならFalse
     """
     for x in ['2ch', 'bbspink']:
-        if x in url:
-            return True
-            
+        if x in url: return True
+
     return False
+
 
 def collect2ch(soup) -> list:
     """
