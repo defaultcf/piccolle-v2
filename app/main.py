@@ -17,14 +17,14 @@ if __name__ == "__main__":
     app.run()
 
 
-def collecter(url):
+def collecter(url:str)->list:
     """
-    画像のスクレイピングを行い、結果をjsonで返す
+    画像のスクレイピングを行い、結果をlistで返す
     @param url スクレイピングしたいURL
-    @return スクレイピング結果のjson
+    @return スクレイピング結果のlist
     """
-    if(url is None or url == ""):
-        return
+    if not url:
+        return []
     
     pics = []
 
@@ -32,7 +32,7 @@ def collecter(url):
     soup = BeautifulSoup(html, "html.parser")
     for a in soup.find_all("a"):
         text = str(a.string)
-        if text.endswith("jpg") or text.endswith("png"):
+        if text.endswith(("jpg", "png")):
             pics.append({"src": text})
 
     return pics
