@@ -7,7 +7,7 @@ app.config.update(
     DEBUG=True
 )
 
-@app.route("/collecter")
+@app.route("/collector")
 def index():
     url = request.args.get('url', '')
     res = collecter(url)
