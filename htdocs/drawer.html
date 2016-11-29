@@ -1,0 +1,27 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="x-drawer">
+  <template>
+    <iron-ajax auto
+               url="/api/board-list"
+               loading="{{ajaxLoading}}"
+               last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <template is="dom-repeat" items="{{ajaxResponse}}" as="pre">
+      <p>{{pre.category}}</p>
+      <template is="dom-repeat" items="{{pre.boards}}">
+        <p>{{item.url}}</p>
+      </template>
+    </template>
+
+    <p>Hello, x-drawer!</p>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'x-drawer'
+  });
+  </script>
+</dom-module>

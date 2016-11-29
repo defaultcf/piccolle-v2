@@ -9,10 +9,37 @@ app.config.update(
 )
 
 @app.route("/collector")
-def index():
+def index_collector():
     url = request.args.get('url', '')
     res = collector(url)
     return jsonify(res)
+
+@app.route("/board-list")
+def index_boardList():
+    url = "https://2ch.sc/bbstable.html"
+    pics = []
+
+    html = urlopen(url)
+    soup = BeautifulSoup(html, "html.parser")
+    small = soup.find("small")
+    """
+    category = {}
+    for b in small.find_all('b'):
+        category[b.text] = []
+        for a in b.find_next_siblings():
+            if a.name == "b": break
+            category[b.text].append({"name": a.text, "href": a.get("href")})
+    return jsonify(category)
+    """
+    json = []
+    count = 0
+    for b in small.find_all('b'):
+        json.append({"category": b.text, "boards": []})
+        for a in b.find_next_siblings():
+            if a.name == 'b': break
+            json[count]["boards"].append({"url": a.get("href"), "board": a.text})
+        count += 1
+    return jsonify(json)
 
 if __name__ == "__main__":
     app.run()
