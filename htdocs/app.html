@@ -38,23 +38,6 @@
       --paper-progress-active-color: white;
       --paper-progress-indeterminate-cycle-duration: 5s;
     }
-    app-drawer iron-selector {
-      margin: 0 20px;
-    }
-    app-drawer iron-selector a {
-      display: block;
-      padding: 0 16px;
-      line-height: 40px;
-      text-decoration: none;
-      color: var(--app-secondary-color);
-    }
-    app-drawer iron-selector a.iron-selected {
-      color: black;
-      font-weight: bold;
-    }
-    app-drawer iron-selector a.subroute {
-      padding-left: 32px;
-    }
     paper-card {
       margin: 0px 20px 20px;
     }
@@ -69,7 +52,9 @@
 
     <app-drawer-layout fullbleed>
       <app-drawer>
-        <x-drawer></x-drawer>
+        <div style="height:100%; overflow:auto;">
+          <x-drawer></x-drawer>
+        </div>
       </app-drawer>
       <app-header-layout>
         <app-header condenses reveals effects="waterfall">
