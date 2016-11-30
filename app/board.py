@@ -1,9 +1,8 @@
 from urllib.request import urlopen
-from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 class Board():
-    def getList(self):
+    def getList(self) -> list:
         """
         掲示板のリストをlistにして返す
         @return list
