@@ -1,38 +1,23 @@
 from flask import Flask, request, jsonify
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+
+from collector import Collector
+from board import Board
 
 app = Flask(__name__)
 app.config.update(
     DEBUG=True
 )
 
-@app.route("/collecter")
-def index():
+@app.route("/collector")
+def index_collector():
     url = request.args.get('url', '')
-    res = collecter(url)
+    res = Collector().getImgs(url)
     return jsonify(res)
+
+@app.route("/board-list")
+def index_boardList():
+    json = Board().getList()
+    return jsonify(json)
 
 if __name__ == "__main__":
     app.run()
-
-
-def collecter(url):
-    """
-    画像のスクレイピングを行い、結果をjsonで返す
-    @param url スクレイピングしたいURL
-    @return スクレイピング結果のjson
-    """
-    if(url is None or url == ""):
-        return
-    
-    pics = []
-
-    html = urlopen(url)
-    soup = BeautifulSoup(html, "html.parser")
-    for a in soup.find_all("a"):
-        text = str(a.string)
-        if text.endswith("jpg") or text.endswith("png"):
-            pics.append({"src": text})
-
-    return pics

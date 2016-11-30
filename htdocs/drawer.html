@@ -1,0 +1,36 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
+
+<dom-module id="x-drawer">
+  <template>
+    <iron-ajax auto
+               url="/api/board-list"
+               loading="{{ajaxLoading}}"
+               last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <iron-collapse id="collapse">
+      <p>Hello</p>
+    </iron-collapse>
+    <template is="dom-repeat" items="[[ajaxResponse]]" as="pre">
+      <button id="[[index]]" on-click="_toggle">[[pre.category]]</button>
+      <iron-collapse id$="col-[[index]]">
+        <template is="dom-repeat" items="[[pre.boards]]">
+          <a href="[[item.url]]">[[item.board]]</a>
+        </template>
+      </iron-collapse>
+    </template>
+  </template>
+
+  <script>
+  Polymer({
+    is: 'x-drawer',
+
+    _toggle: function(e) {
+      console.log(e.target.id);
+      this.$$("#col-" + e.target.id).toggle();
+    }
+  });
+  </script>
+</dom-module>
