@@ -1,4 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-item/paper-item.htm">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
 
@@ -10,9 +13,15 @@
                last-response="{{ajaxResponse}}">
     </iron-ajax>
 
-    <iron-collapse id="collapse">
-      <p>Hello</p>
-    </iron-collapse>
+    <paper-dropdown-menu label="モード">
+      <paper-listbox class="dropdown-content" selected="0">
+        <paper-item>allosaurus</paper-item>
+        <paper-item>brontosaurus</paper-item>
+        <paper-item>carcharodontosaurus</paper-item>
+        <paper-item>diplodocus</paper-item>
+      </paper-listbox>
+    </paper-dropdown-menu>
+
     <template is="dom-repeat" items="[[ajaxResponse]]" as="pre">
       <button id="[[index]]" on-click="_toggle">[[pre.category]]</button>
       <iron-collapse id$="col-[[index]]">
@@ -28,7 +37,6 @@
     is: 'x-drawer',
 
     _toggle: function(e) {
-      console.log(e.target.id);
       this.$$("#col-" + e.target.id).toggle();
     }
   });
