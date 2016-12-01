@@ -16,7 +16,8 @@ def index_collector():
 
 @app.route("/board-list")
 def index_boardList():
-    json = Board().getList()
+    mode = request.args.get('mode', '')
+    json = Board().getList(mode)
     return jsonify(json)
 
 if __name__ == "__main__":

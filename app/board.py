@@ -2,12 +2,18 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 class Board():
-    def getList(self) -> list:
+    def getList(self, mode:str) -> list:
         """
         掲示板のリストをlistにして返す
         @return list
         """
-        url = "https://2ch.sc/bbstable.html"
+        if not mode: return []
+
+        if mode == "sc":
+            url = "https://2ch.sc/bbstable.html"
+        else:
+            url = "http://www.2ch.net/bbstable.html"
+
         pics = []
 
         html = urlopen(url)
