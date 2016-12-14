@@ -4,6 +4,7 @@
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
 
 <dom-module id="x-drawer">
@@ -34,6 +35,8 @@
         <paper-item>net</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
+
+    <paper-spinner active="[[ajaxLoading]]"></paper-spinner>
 
     <template is="dom-repeat" items="[[ajaxResponse]]" as="pre">
       <paper-button id="[[index]]" on-click="_toggle" toggles>[[pre.category]]</paper-button>
