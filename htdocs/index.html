@@ -91,6 +91,7 @@
 
     <iron-scroll-threshold id="scrollTheshold"
       scroll-target="html"
+      lower-threshold="500"
       on-lower-threshold="_loadMoreData">
     </iron-scroll-threshold>
   </template>
@@ -103,16 +104,15 @@
       scope.apiParams = { "url": scope.url };
     };
     scope._handleResponse = function() {
-      console.log("Ajax");
       for(let i = 0; i < 10; i++) {
-        if(!scope.ajaxResponse) return;
+        if(!scope.ajaxResponse || !scope.ajaxResponse[0]) return;
         scope.push('pics', scope.shift('ajaxResponse'));
       }
       scope.$.scrollTheshold.clearTriggers();
     };
     scope._loadMoreData = function() {
       for(let i = 0; i < 10; i++) {
-        if(!scope.ajaxResponse) return;
+        if(!scope.ajaxResponse || !scope.ajaxResponse[0]) return;
         scope.push('pics', scope.shift('ajaxResponse'));
       }
       scope.$.scrollTheshold.clearTriggers();
