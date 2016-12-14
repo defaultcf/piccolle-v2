@@ -1,19 +1,123 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" id="html">
 <head>
   <meta charset="utf-8">
   <title>Piccolle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
-  <link rel="import" href="app.html">
-  <style>
+
+  <link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+  <link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+  <link rel="import" href="bower_components/iron-selector/iron-selector.html">
+  <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+  <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+  <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+  <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+  <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/paper-input/paper-input-container.html">
+  <link rel="import" href="bower_components/iron-input/iron-input.html">
+  <link rel="import" href="bower_components/paper-progress/paper-progress.html">
+  <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+  <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+
+  <link rel="import" href="drawer.html">
+  <style is="custom-style">
   body {
     margin: 0;
     background: #ECEFF1;
   }
+  app-toolbar {
+    background-color: #1E88E5;
+    color: white;
+    --app-toolbar-font-size: 24px;
+  }
+  app-toolbar paper-input-container {
+    width: 100%;
+    --paper-input-container-color: white;
+    --paper-input-container-focus-color: white;
+    --paper-input-container-input-color: white;
+  }
+  app-toolbar paper-progress {
+    width: 100%;
+    --paper-progress-container-color: #1E88E5;
+    --paper-progress-active-color: white;
+    --paper-progress-indeterminate-cycle-duration: 5s;
+  }
+  paper-card {
+    margin: 0px 20px 20px;
+    z-index: -1;
+  }
   </style>
 </head>
-<body>
-  <x-app></x-app>
+<body unresolved>
+  <template is="dom-bind" id="app">
+    <iron-ajax auto
+      url="/api/collector"
+      params="[[apiParams]]"
+      loading="{{ajaxLoading}}"
+      on-response="_handleResponse"
+      last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <app-header-layout>
+      <app-header condenses reveals effects="waterfall">
+        <app-toolbar>
+          <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+          <div main-title>Piccolle</div>
+        </app-toolbar>
+        <app-toolbar sticky>
+          <paper-input-container>
+            <label>URL</label>
+            <input is="iron-input" type="url" bind-value="{{url::input}}" on-keydown="_collect">
+            <paper-icon-button suffix icon="arrow-forward" on-tap="_collect"></paper-icon-button>
+          </paper-input-container>
+          <template is="dom-if" if="[[ajaxLoading]]">
+            <paper-progress indeterminate bottom-item></paper-progress>
+          </template>
+        </app-toolbar>
+      </app-header>
+    </app-header-layout>
+    <app-drawer id="drawer">
+      <div style="height:100%; overflow:auto;">
+        <x-drawer></x-drawer>
+      </div>
+    </app-drawer>
+    <p>収集するやで</p>
+    <template is="dom-repeat" items="[[pics]]">
+      <paper-card image="[[item.src]]" alt="image"></paper-card>
+    </template>
+
+    <iron-scroll-threshold id="scrollTheshold"
+      scroll-target="html"
+      on-lower-threshold="_loadMoreData">
+    </iron-scroll-threshold>
+  </template>
+
+  <script>
+  (function(scope) {
+    scope.pics = [];
+    scope._collect = function(e) {
+      if(e.keyCode && e.keyCode !== 13 || scope.url == "") return;
+      scope.apiParams = { "url": scope.url };
+    };
+    scope._handleResponse = function() {
+      console.log("Ajax");
+      for(let i = 0; i < 10; i++) {
+        if(!scope.ajaxResponse) return;
+        scope.push('pics', scope.shift('ajaxResponse'));
+      }
+      scope.$.scrollTheshold.clearTriggers();
+    };
+    scope._loadMoreData = function() {
+      for(let i = 0; i < 10; i++) {
+        if(!scope.ajaxResponse) return;
+        scope.push('pics', scope.shift('ajaxResponse'));
+      }
+      scope.$.scrollTheshold.clearTriggers();
+    };
+  })(document.querySelector('#app'));
+  </script>
 </body>
 </html>
