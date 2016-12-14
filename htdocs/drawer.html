@@ -39,7 +39,7 @@
     <paper-spinner active="[[ajaxLoading]]"></paper-spinner>
 
     <template is="dom-repeat" items="[[ajaxResponse]]" as="pre">
-      <paper-button id="[[index]]" on-click="_toggle" toggles>[[pre.category]]</paper-button>
+      <paper-button id="[[index]]" on-tap="_toggle" toggles>[[pre.category]]</paper-button>
       <iron-collapse id$="col-[[index]]">
         <template is="dom-repeat" items="[[pre.boards]]">
           <a href="[[item.url]]">[[item.board]]</a>
