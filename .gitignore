@@ -89,5 +89,6 @@ ENV/
 .ropeproject
 
 # Original
+/docker-compose.yml
 bower_components/
-/keys/
+/serve/keys/

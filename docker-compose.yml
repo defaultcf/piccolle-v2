@@ -4,9 +4,9 @@ services:
         container_name: piccolle_nginx
         image: nginx:1.11.5-alpine
         volumes:
-            - ./default.conf:/etc/nginx/conf.d/default.conf
+            - ./serve/default.conf:/etc/nginx/conf.d/default.conf
+            - ./serve/keys/:/usr/share/nginx/keys/
             - ./htdocs/:/usr/share/nginx/htdocs/
-            - ./keys/:/usr/share/nginx/keys/
         ports:
             - 80:80
             - 443:443
@@ -24,6 +24,4 @@ services:
         working_dir: /mnt
         environment:
             - FLASK_APP=main.py
-        #command: ash -c 'pip install Flask beautifulsoup4 && python -m flask run --host=0.0.0.0'
-        tty: true
-        command: ash -c 'pip install Flask beautifulsoup4 && ash'
+        command: ash -c 'pip install Flask beautifulsoup4 && python -m flask run --host=0.0.0.0'
