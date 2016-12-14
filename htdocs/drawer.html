@@ -2,6 +2,7 @@
 <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="bower_components/iron-collapse/iron-collapse.html">
 
@@ -11,13 +12,20 @@
     paper-listbox {
       width: 100px;
     }
+    paper-button {
+      width: 45%;
+      height: 45px;
+    }
+    paper-button[toggles][active] {
+      font-weight: bold;
+    }
     </style>
 
     <iron-ajax auto
-               url="/api/board-list"
-               params="{{_apiParam(mode)}}"
-               loading="{{ajaxLoading}}"
-               last-response="{{ajaxResponse}}">
+      url="/api/board-list"
+      params="{{_apiParam(mode)}}"
+      loading="{{ajaxLoading}}"
+      last-response="{{ajaxResponse}}">
     </iron-ajax>
 
     <paper-dropdown-menu label="モード" value="{{mode}}">
@@ -28,7 +36,7 @@
     </paper-dropdown-menu>
 
     <template is="dom-repeat" items="[[ajaxResponse]]" as="pre">
-      <button id="[[index]]" on-click="_toggle">[[pre.category]]</button>
+      <paper-button id="[[index]]" on-click="_toggle" toggles>[[pre.category]]</paper-button>
       <iron-collapse id$="col-[[index]]">
         <template is="dom-repeat" items="[[pre.boards]]">
           <a href="[[item.url]]">[[item.board]]</a>
