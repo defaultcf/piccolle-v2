@@ -20,6 +20,7 @@
   <link rel="import" href="bower_components/paper-progress/paper-progress.html">
   <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 
   <link rel="import" href="drawer.html">
   <style is="custom-style">
@@ -50,12 +51,13 @@
   }
   </style>
 </head>
-<body>
+<body unresolved>
   <template is="dom-bind" id="app">
     <iron-ajax auto
       url="/api/collector"
       params="[[apiParams]]"
       loading="{{ajaxLoading}}"
+      on-response="_handleResponse"
       last-response="{{ajaxResponse}}">
     </iron-ajax>
 
@@ -83,16 +85,37 @@
       </div>
     </app-drawer>
     <p>収集するやで</p>
-    <template is="dom-repeat" items="[[ajaxResponse]]">
+    <template is="dom-repeat" items="[[pics]]">
       <paper-card image="[[item.src]]" alt="image"></paper-card>
     </template>
+
+    <iron-scroll-threshold id="scrollTheshold"
+      scroll-target="html"
+      on-lower-threshold="_loadMoreData">
+    </iron-scroll-threshold>
   </template>
 
   <script>
   (function(scope) {
+    scope.pics = [];
     scope._collect = function(e) {
       if(e.keyCode && e.keyCode !== 13 || scope.url == "") return;
       scope.apiParams = { "url": scope.url };
+    };
+    scope._handleResponse = function() {
+      console.log("Ajax");
+      for(let i = 0; i < 10; i++) {
+        if(!scope.ajaxResponse) return;
+        scope.push('pics', scope.shift('ajaxResponse'));
+      }
+      scope.$.scrollTheshold.clearTriggers();
+    };
+    scope._loadMoreData = function() {
+      for(let i = 0; i < 10; i++) {
+        if(!scope.ajaxResponse) return;
+        scope.push('pics', scope.shift('ajaxResponse'));
+      }
+      scope.$.scrollTheshold.clearTriggers();
     };
   })(document.querySelector('#app'));
   </script>
