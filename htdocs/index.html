@@ -69,7 +69,7 @@
         </app-toolbar>
         <app-toolbar sticky>
           <paper-input-container>
-            <label>URL</label>
+            <label>URL - [[resNum]]</label>
             <input is="iron-input" type="url" bind-value="{{url::input}}" on-keydown="_collect">
             <paper-icon-button suffix icon="arrow-forward" on-tap="_collect"></paper-icon-button>
           </paper-input-container>
@@ -98,22 +98,26 @@
 
   <script>
   (function(scope) {
+    scope.resNum = 0;
     scope.pics = [];
+
     scope._collect = function(e) {
       if(e.keyCode && e.keyCode !== 13 || scope.url == "") return;
+      scope.resNum = 0, scope.pics = [];
       scope.apiParams = { "url": scope.url };
     };
     scope._drawerToggle = function() {
       scope.$.drawer.toggle();
     };
     scope._handleResponse = function() {
-      for(let i = 0; i < 10; i++) {
-        if(!scope.ajaxResponse || !scope.ajaxResponse[0]) return;
-        scope.push('pics', scope.shift('ajaxResponse'));
-      }
-      scope.$.scrollTheshold.clearTriggers();
+      scope.resNum = scope.ajaxResponse.length;
+      pushPics();
     };
     scope._loadMoreData = function() {
+      pushPics();
+    };
+
+    function pushPics() {
       for(let i = 0; i < 10; i++) {
         if(!scope.ajaxResponse || !scope.ajaxResponse[0]) return;
         scope.push('pics', scope.shift('ajaxResponse'));
