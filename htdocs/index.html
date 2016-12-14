@@ -64,7 +64,7 @@
     <app-header-layout>
       <app-header condenses reveals effects="waterfall">
         <app-toolbar>
-          <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+          <paper-icon-button icon="menu" on-tap="_drawerToggle"></paper-icon-button>
           <div main-title>Piccolle</div>
         </app-toolbar>
         <app-toolbar sticky>
@@ -102,6 +102,9 @@
     scope._collect = function(e) {
       if(e.keyCode && e.keyCode !== 13 || scope.url == "") return;
       scope.apiParams = { "url": scope.url };
+    };
+    scope._drawerToggle = function() {
+      scope.$.drawer.toggle();
     };
     scope._handleResponse = function() {
       for(let i = 0; i < 10; i++) {
