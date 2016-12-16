@@ -20,5 +20,11 @@ def index_boardList():
     json = Board().getList(mode)
     return jsonify(json)
 
+@app.route("/thread-list")
+def index_threadList():
+    url = request.args.get('url', '')
+    res = Board().getThread(url)
+    return jsonify(res)
+
 if __name__ == "__main__":
     app.run()
