@@ -16,12 +16,21 @@ services:
 
     app:
         container_name: piccolle_app
-        image: python:3.5.2-alpine
+        build: ./app
         volumes:
             - ./app/:/mnt/
+        links:
+            - phantomjs
         expose:
             - 5000
         working_dir: /mnt
         environment:
             - FLASK_APP=main.py
-        command: ash -c 'pip install Flask beautifulsoup4 && python -m flask run --host=0.0.0.0'
+        command: python -m flask run --host=0.0.0.0
+
+    phantomjs:
+        container_name: piccolle_phantomjs
+        image: wernight/phantomjs:2.1.1
+        expose:
+            - 8910
+        command: phantomjs --webdriver=8910
