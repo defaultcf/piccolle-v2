@@ -38,7 +38,18 @@ class Collector:
         @param soup BeautifulSoupのsoup
         @return list
         """
+
         pics = []
+
+        for res in soup.find_all("dd"):
+            for line in res.contents:
+                text = line.string
+                if not text: break
+                text = str(text).strip()
+                if text.startswith("ttp://") and text.endswith(("jpg", "png")):
+                    src = "h" + text
+                    pics.append({"src": src})
+
         for a in soup.find_all("a"):
             text = str(a.string)
             if text.endswith(("jpg", "png")):
